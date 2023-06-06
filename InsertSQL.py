@@ -16,7 +16,7 @@ db_host = os.getenv('POSTGRES_HOST')
 db_port = os.getenv('POSTGRES_PORT')
 
 # Ruta del archivo Excel a subir
-excel_file = 'tabla_combinada_modificada.xlsx'
+excel_file = 'FitosanitarioFinal.xlsx'
 
 # Nombre de la tabla en la base de datos
 table_name = 'fitosanitarios'

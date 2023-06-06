@@ -3,10 +3,10 @@ import pandas as pd
 from openpyxl import Workbook
 
 # Ruta del archivo PDF de entrada
-pdf_path = "fitosanitariosOriginal.pdf"
+pdf_path = "SustanciasBasicas.pdf"
 
 # Crear un nuevo archivo de Excel
-excel_path = "tabla_combinada.xlsx"
+excel_path = "sustanciasBasicas.xlsx"
 workbook = Workbook()
 worksheet = workbook.active
 

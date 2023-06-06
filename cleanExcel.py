@@ -14,7 +14,6 @@ df = pd.read_excel(excel_file)
 print("Num celdas del excel: ")
 print(df.shape)
 
-
 # Sustimos los \n por un espacio
 df = df.replace('\n', ' ', regex=True)
 
@@ -23,6 +22,12 @@ df = df.replace(np.nan, ' ', regex=True)
 
 # Miramos todas las celdas tengan espcaios en blanco y las eliminamos
 df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+
+# Eliminar filas donde la primera columna comienza con un espacio en blanco
+df = df[~df.iloc[:, 0].astype(str).str.startswith(' ')]
+
+# Si la columa empieza con SUSTANCIA ACTIVA tambien se elimina
+df = df[~df.iloc[:, 0].astype(str).str.startswith('SUSTANCIA ACTIVA')]
 
 # Guardamos los cambios
 df.to_excel("tabla_combinada_modificada.xlsx", index=False)
