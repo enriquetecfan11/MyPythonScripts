@@ -1,0 +1,24 @@
+# Imagen base con soporte para Python
+FROM python:3.9
+
+# Establecer el directorio de trabajo en el contenedor
+WORKDIR /app
+
+# Copiar el script y el archivo .env al contenedor
+COPY script.py /app/script.py
+COPY .env /app/.env
+
+# Copiar el archivo PDF al directorio adecuado dentro del contenedor
+COPY documents/CursosTYC-GIS.pdf /app/documents/CursosTYC-GIS.pdf
+
+# Copiar el archivo install_dependencies.sh al contenedor
+COPY install_dependencies.sh /app/install_dependencies.sh
+
+# Instalar las dependencias del proyecto
+RUN chmod +x install_dependencies.sh && ./install_dependencies.sh
+
+# Establecer la codificación del script
+ENV PYTHONIOENCODING=utf-8
+
+# Ejecutar el script
+CMD [ "python", "script.py" ]
