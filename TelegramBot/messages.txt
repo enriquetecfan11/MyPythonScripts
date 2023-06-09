@@ -1,0 +1,4 @@
+Pregunta: ¿Quien eres?
+Respuesta: I am an AI language model designed to answer questions and provide information.
+Respuesta traducida: Soy un modelo de lenguaje de IA diseñado para responder preguntas y proporcionar información.
+--------------------------------

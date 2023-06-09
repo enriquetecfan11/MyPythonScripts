@@ -1,0 +1,11 @@
+En la modalidad online el alumno accede a nuestra plataforma virtual de formación (disponible 24 horas) donde tiene acceso a los contenidos del curso, ejercicios, foros de debate y contenidos adicionales. En esta plataforma el alumno tiene acceso a las tutorías en tiempo real con el profesor (2 horas a la semana) y puede enviar mensajes privados al profesor para solucionar dudas en cualquier momento. También pueden ponerse en contacto con el profesor mediante correo electrónico.
+
+CURSOS ONLINE GVSIG
+Curso de GvSIG
+Curso avanzado de GvSIG
+Curso de Especialista en GvSIG
+
+CURSOS PRESENCIALES GVSIG MADRID
+Curso Presencial de GvSIG – Nivel Usuario
+Curso Presencial de GvSIG – Nivel Avanzado
+Curso Presencial de Especialista en GvSIG – Nivel Usuario y Avanzado

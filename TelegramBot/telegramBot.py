@@ -17,7 +17,7 @@ from langchain.llms import OpenAI
 from translate import Translator
 translator = Translator(to_lang="es")
 
-pdf_path = "./folder/local/CursosTYC-GIS.pdf"
+pdf_path = "./documents/CursosTYC-GIS.pdf"
 
 loader = PyPDFLoader(pdf_path)
 pages = loader.load_and_split()
