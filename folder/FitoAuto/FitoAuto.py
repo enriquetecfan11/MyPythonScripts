@@ -11,6 +11,7 @@ import pdfplumber
 url = 'https://www.mapa.gob.es/es/agricultura/temas/sanidad-vegetal/listasustanciasactivasaceptadasexcluidas_tcm30-618972.pdf'
 pdf_filename = 'archivo_{}.pdf'.format(date.today().strftime("%Y-%m-%d"))
 urllib.request.urlretrieve(url, pdf_filename)
+
 print("Paso 1 Ejecutado")
 
 # Paso 2: Extraer páginas 1-48 del archivo PDF
@@ -23,6 +24,7 @@ with open(extracted_pdf_filename, 'rb') as file:
         output_pdf.add_page(pdf.pages[page_num])
     with open(extracted_pdf_filename, 'wb') as extracted_pdf_file:
         output_pdf.write(extracted_pdf_file)
+
 print("Paso 2 Ejecutado")
 
 
