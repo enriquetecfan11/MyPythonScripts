@@ -1,5 +1,17 @@
 ./index
 
+*.xls
+*.pdf
+*.doc
+*.docx
+*.xlsx
+*.csv
+*.txt
+*.png
+*.jpg
+*.jpeg
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
