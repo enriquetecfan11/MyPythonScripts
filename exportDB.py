@@ -31,7 +31,7 @@ excel_file = 'BaseDatos/base_datos_' + str(Timestamp('now').value) + '.xlsx'
 writer = ExcelWriter(excel_file)
 
 # Iterate through all tables and export each one to a separate Excel sheet
-for table in ['fitosanitarios', 'productos', 'maquinaria', 'personas', 'productos', 'fitosanitariosadds', 'actividades']:
+for table in ['productos', 'maquinaria', 'personas', 'productos', 'fitosanitariosadds', 'actividades']:
     # Read the table into a DataFrame
     df = pd.read_sql(f'SELECT * FROM {table};', connection)
 

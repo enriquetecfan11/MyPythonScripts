@@ -32,25 +32,6 @@ try:
     record = cursor.fetchone()
     print("Conectado a la base de datos:", record, "\n")
 
-    # Crear la tabla en la base de datos
-    # cursor.execute(f"DROP TABLE IF EXISTS {table_name};")
-
-    # create_table_query = f'''
-    # CREATE TABLE IF NOT EXISTS {table_name} (
-    #     id SERIAL PRIMARY KEY,
-    #     sutanciaactiva TEXT,
-    #     funcion TEXT,
-    #     reglamento TEXT,
-    #     inclusion TEXT,
-    #     caducidad TEXT,
-    #     principiosuniformes TEXT,
-    #     anexoa TEXT
-    # )
-    # '''
-
-    # cursor.execute(create_table_query)
-    # connection.commit()
-
     # Ahora hay que insertar los datos del df en la tabla.
     for index, row in df.iterrows():
         if row.isnull().values.any():
