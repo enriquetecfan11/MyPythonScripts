@@ -1,23 +1,41 @@
 # -*- coding: utf-8 -*-
 import speech_recognition as sr
+
+# import pyttsx3
+# engine = pyttsx3.init()
+
 from termcolor import colored
 import openai
 
-from langchain.agents import load_tools
-from langchain.agents import initialize_agent
-from langchain.agents import AgentType
-from langchain.llms import OpenAI
-from langchain import ConversationChain
+from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
+from langchain.memory import ConversationBufferWindowMemory
+
 
 import os
 from dotenv import load_dotenv
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+template = """Tom es un gran modelo lingüístico entrenado por OpenAI.
 
+Tom tiene una personalidad amigable y es muy útil, le encanta ayudar a los usuarios a realizar tareas en su computadora.
 
-llm = OpenAI(temperature=0)
-conversation = ConversationChain(llm=llm, verbose=False)
+Tom está diseñado para ayudar en una amplia gama de tareas, desde responder a preguntas sencillas hasta proporcionar explicaciones detalladas y debates sobre una gran variedad de temas. Como modelo lingüístico, Assistant es capaz de generar textos similares a los humanos a partir de la información que recibe, lo que le permite entablar conversaciones naturales y ofrecer respuestas coherentes y relevantes para el tema en cuestión.
+
+En general, Tom es una potente herramienta que puede ayudarte con una gran variedad de tareas y proporcionarte valiosos conocimientos e información sobre una amplia gama de temas. Tanto si necesitas ayuda con una pregunta concreta como si sólo quieres mantener una conversación sobre un tema en particular, Tom está aquí para ayudarte.
+
+{history}
+Human: {input_text}
+Tom:"""
+
+prompt = PromptTemplate(input_variables=["input_text", "history"], template=template)
+
+chatgpt_chain = LLMChain(
+    llm=OpenAI(temperature=0),
+    prompt=prompt,
+    verbose=False,
+    memory=ConversationBufferWindowMemory(k=2),
+)
 
 
 def process_input(input_text):
@@ -30,35 +48,9 @@ def process_input(input_text):
         return response
 
 def generate_response(input_text):
-    response = conversation.run(input_text)
+    # Generar respuesta utilizando ChatGPT
+    response = chatgpt_chain.predict(input_text=input_text, history="")
     return response
-
-
-def getTokens(text):
-    tokenizer = Tokenizer()
-    tokens = tokenizer.tokenize(text)
-    return tokens
-
-
-
-def listen():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print(colored("Dime algo:", "green"))
-        audio = r.listen(source)
-    try:
-        text = r.recognize_google(audio, language="es-ES")
-        print(colored("Entrada de voz:", "cyan"), text)
-        response = process_input(text)
-        if response == False:
-            return False  # Salir del programa
-        else:
-            print(colored("Respuesta del asistente:", "yellow"), response)
-    except sr.UnknownValueError:
-        print(colored("No se pudo reconocer la entrada de voz", "red"))
-    except sr.RequestError:
-        print(colored("Error al realizar la solicitud de reconocimiento de voz", "red"))
-    return True
 
 def read_input():
     while True:
@@ -67,24 +59,43 @@ def read_input():
         if response == False:
             break  # Salir del programa
         else:
-            print(colored("Respuesta del asistente:", "yellow"), response)
+            print(colored("Tom:", "yellow"), response)
+
+
+def listen():
+    # Escuchar entrada de voz
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print(colored("Escuchando...", "green"))
+        audio = r.listen(source)
+        try:
+            input_text = r.recognize_google(audio, language="es-ES")
+            print(colored("Entrada de voz:", "yellow"), input_text)
+            response = process_input(input_text)
+            if response == None:
+                return False
+            else:
+                print(colored("Tom:", "yellow"), response)
+        except:
+            print(colored("No se pudo reconocer la entrada de voz.", "red"))
+            return True
+    return True
+
 
 def main():
-    print(colored("¡Bienvenido al asistente virtual!", "magenta"))
+    print(colored("¡Buenas! soy Tom, ¿En que puedo ayudarte?", "magenta"))
     while True:
         print(colored("¿Cómo te gustaría interactuar?", "blue"))
-        print(colored("1. Voz", "cyan"))
-        print(colored("2. Teclado", "cyan"))
-        print(colored("3. Salir", "red"))
+        print(colored("1. Teclado", "cyan"))
+        print(colored("2. Salir", "red"))
         option = input(colored("Elige una opción: ", "green"))
-        if option == "1":
+        if option == "3":
             should_continue = listen()
             if not should_continue:
                 break  # Salir del programa
-        elif option == "2":
+        elif option == "1":
             read_input()
-            getTokens()
-        elif option == "3":
+        elif option == "2":
             print(colored("¡Hasta luego!", "magenta"))
             break
         else:
