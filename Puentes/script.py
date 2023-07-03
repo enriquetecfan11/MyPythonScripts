@@ -60,16 +60,15 @@ for index in indices_cercanos:
 # Agregar el objeto MarkerCluster al mapa
 mapa.add_child(marker_cluster)
 
-# Añadir capa de OpenAIP al mapa
-url_openaip = 'https://api.tiles.openaip.net/api/data/openaip/z/x/y.pbf'
-openaip_layer = folium.TileLayer(tiles=url_openaip, attr='OpenAIP', name='OpenAIP', overlay=True)
-
 # Añadir capa de OpenStreetMap al mapa
 folium.TileLayer('openstreetmap').add_to(mapa)
 
-# Agregar capa de OpenAIP al control de capas
-folium.LayerControl().add_to(mapa)
-mapa.add_child(openaip_layer)
+# Añadir capa de Google Hybrid al mapa
+google_hybrid = folium.TileLayer(tiles='https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',attr='Google Hybrid', name='Google Hybrid', overlay=True)
+google_hybrid.add_to(mapa)
 
-# Crea un mapa interactivo en formato html
+# Agregar capas al control de capas
+folium.LayerControl().add_to(mapa)
+
+# Guardar el mapa interactivo en formato HTML
 mapa.save('InspecionDeViaductos.html')

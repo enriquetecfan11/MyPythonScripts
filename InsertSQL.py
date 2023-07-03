@@ -16,10 +16,10 @@ db_host = os.getenv('POSTGRES_HOST')
 db_port = os.getenv('POSTGRES_PORT')
 
 # Ruta del archivo Excel a subir
-excel_file = 'tabla_combinada.xlsx'
+excel_file = 'VeleMalagaSigPac.xlsx'
 
 # Nombre de la tabla en la base de datos
-table_name = 'fitosanitarios'
+table_name = 'velezsigpacs'
 
 # Leer el archivo Excel en un DataFrame de pandas
 df = pd.read_excel(excel_file)

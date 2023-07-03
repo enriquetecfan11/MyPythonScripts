@@ -9,6 +9,10 @@ import openai
 
 from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
 from langchain.memory import ConversationBufferWindowMemory
+from langchain.agents import load_tools, initialize_agent, AgentType
+from langchain.agents import Tool
+from langchain.memory import ConversationBufferMemory
+
 
 
 import os
@@ -29,13 +33,34 @@ Human: {input_text}
 Tom:"""
 
 prompt = PromptTemplate(input_variables=["input_text", "history"], template=template)
+memory = ConversationBufferMemory(memory_key="chat_history")
 
-chatgpt_chain = LLMChain(
-    llm=OpenAI(temperature=0),
-    prompt=prompt,
-    verbose=False,
-    memory=ConversationBufferWindowMemory(k=2),
+llm = OpenAI(temperature=0.5)
+llm_chain = LLMChain(llm=llm, prompt=prompt)
+
+def search(query):
+    # Aquí puedes implementar tu propia lógica de búsqueda
+    return "Resultados de búsqueda para: " + query
+
+
+tools = [
+    Tool(
+        name = "Current Search",
+        func=search,
+        description="útil para responder a preguntas sobre la actualidad o el estado actual del mundo"
+    ),
+]
+
+
+zero_shot_agent = initialize_agent(
+  tools, 
+  llm, 
+  agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION, 
+  memory=memory,
+  verbose=True,
+  prompt=prompt
 )
+
 
 
 def process_input(input_text):
@@ -49,8 +74,11 @@ def process_input(input_text):
 
 def generate_response(input_text):
     # Generar respuesta utilizando ChatGPT
-    response = chatgpt_chain.predict(input_text=input_text, history="")
-    return response
+    # response = chatgpt_chain.predict(input_text=input_text, history="")
+    
+    response = zero_shot_agent(input_text)
+    repuesta =  response['output']
+    return repuesta
 
 def read_input():
     while True:
