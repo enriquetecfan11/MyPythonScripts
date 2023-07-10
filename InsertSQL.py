@@ -16,15 +16,14 @@ db_host = os.getenv('POSTGRES_HOST')
 db_port = os.getenv('POSTGRES_PORT')
 
 # Ruta del archivo Excel a subir
-excel_file = 'VeleMalagaSigPac.xlsx'
+excel_file = 'sustaciasFitosanitarios.xlsx'
 
 # Nombre de la tabla en la base de datos
-table_name = 'velezsigpacs'
+table_name = 'fitosanitariosdbs'
 
 # Leer el archivo Excel en un DataFrame de pandas
 df = pd.read_excel(excel_file)
 
-# Conexión a la base de datos
 try:
     connection = psycopg2.connect(user=db_user, password=db_password, host=db_host, port=db_port, database=db_name)
     cursor = connection.cursor()
@@ -32,28 +31,32 @@ try:
     record = cursor.fetchone()
     print("Conectado a la base de datos:", record, "\n")
 
-    # Ahora hay que insertar los datos del df en la tabla.
+    # Crear la tabla en la base de datos cogiendo los datos de la primera fila
+    # sql_create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ("
+    # for column_name in df.columns:
+    #     sql_create_table_query += f'"{column_name}" TEXT, '
+    # sql_create_table_query = sql_create_table_query[:-2] + ");"
+    # cursor.execute(sql_create_table_query)
+
+    # Si está bien, imprímelo
+    # print("Tabla creada correctamente en PostgreSQL\n")
+
+    # Insertar los datos en la tabla
     for index, row in df.iterrows():
-        if row.isnull().values.any():
-            # Si hay algún valor nulo, reemplazarlo por un espacio en blanco
-            row = row.replace(np.nan, ' ')
-
-        # Sustituir los caracteres \n en los valores de texto
-        row = row.apply(lambda x: x.replace('\n', ' ') if isinstance(x, str) else x)
-
-        values = tuple(row)
-        query = f"INSERT INTO {table_name} VALUES {values};"
-        cursor.execute(query)
-
-    # Confirmar los cambios en la base de datos
+        sql_insert_query = f"INSERT INTO {table_name} VALUES ("
+        for column_name in df.columns:
+            sql_insert_query += f"'{row[column_name]}', "
+        sql_insert_query = sql_insert_query[:-2] + ");"
+        cursor.execute(sql_insert_query)
+      
     connection.commit()
-    print("Datos insertados correctamente.")
+    print("Datos insertados correctamente en PostgreSQL\n")
 
-except Error as e:
-    print("Error al conectarse a la base de datos:", e)
+except (Exception, Error) as error:
+    print("Error al conectar o crear la tabla en PostgreSQL:", error)
 
 finally:
     if connection:
         cursor.close()
         connection.close()
-        print("Conexión cerrada.")
+        print("Conexión a PostgreSQL cerrada")
