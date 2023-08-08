@@ -1,9 +1,6 @@
 ./index
-
 ./cache
-
 ./ruta
-
 *.xls
 *.doc
 *.docx
@@ -13,7 +10,9 @@
 *.png
 *.jpg
 *.jpeg
-
+*.mp4
+*.mp3
+*.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
