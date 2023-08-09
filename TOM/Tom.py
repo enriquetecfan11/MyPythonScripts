@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import speech_recognition as sr
 from termcolor import colored
 import openai
@@ -10,6 +8,11 @@ from langchain.agents import Tool
 from langchain.memory import ConversationBufferMemory
 import os
 from dotenv import load_dotenv
+
+from moviepy.editor import VideoFileClip, AudioFileClip
+import pyttsx3
+from gtts import gTTS
+
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -82,44 +85,62 @@ def read_input():
         else:
             print(colored("Tom:", "yellow"), response)
 
-# Función para escuchar entrada de voz y generar respuesta
-def listen():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print(colored("Escuchando...", "green"))
-        audio = r.listen(source)
-        try:
-            input_text = r.recognize_google(audio, language="es-ES")
-            print(colored("Entrada de voz:", "yellow"), input_text)
-            response = process_input(input_text)
-            if response == None:
-                return False
-            else:
-                print(colored("Tom:", "yellow"), response)
-        except:
-            print(colored("No se pudo reconocer la entrada de voz.", "red"))
-            return True
-    return True
+# Función para generar respuesta utilizando el agente
+def generate_response(input_text):
+    response = zero_shot_agent(input_text)
+    respuesta = response['output']
+    return respuesta
+
+# Función para leer la entrada del usuario desde el teclado
+def read_input():
+    while True:
+        input_text = input(colored("Escribe algo: ", "green"))
+        response = process_input(input_text)
+        if response == False:
+            break
+        else:
+            print(colored("Tom:", "yellow"), response)
+
+# Función para generar la respuesta y crear un video con ella
+def process_audio_video(frase):
+    # Configurar el motor de síntesis de voz
+    engine = pyttsx3.init()
+
+    # Seleccionar una voz (puedes ajustar esto)
+    selected_voice_id = "spanish-latin-am"
+    engine.setProperty('voice', selected_voice_id)
+
+    # Generar el archivo de audio con gTTS
+    tts = gTTS(text=frase, lang='es')
+    tts.save("audio.mp3")
+
+    # Rutas de los archivos de video y audio
+    audio_path = './audio.mp3'
+    video_path = './girl.mp4'
+
+    # Cargar el video y el audio
+    video = VideoFileClip(video_path)
+    audio = AudioFileClip(audio_path)
+
+    # Ajustar la duración del video para que coincida con la duración del audio
+    video = video.set_duration(audio.duration)
+
+    # Combinar el audio con el video
+    video = video.set_audio(audio)
+
+    # Guardar el nuevo video con el audio combinado y la duración ajustada
+    output_path = 'video_con_audio.mp4'
+    video.write_videofile(output_path, codec='libx264')
+
 
 # Función principal del programa
 def main():
-    print(colored("¡Buenas! Soy Tom, ¿En qué puedo ayudarte?", "magenta"))
-    while True:
-        print(colored("¿Cómo te gustaría interactuar?", "blue"))
-        print(colored("1. Teclado", "cyan"))
-        print(colored("2. Salir", "red"))
-        option = input(colored("Elige una opción: ", "green"))
-        if option == "3":
-            should_continue = listen()
-            if not should_continue:
-                break
-        elif option == "1":
-            read_input()
-        elif option == "2":
-            print(colored("¡Hasta luego!", "magenta"))
-            break
-        else:
-            print(colored("Opción inválida. Por favor, elige una opción válida.", "red"))
+    print(colored("¡Buenas! Soy Siri, ¿En qué puedo ayudarte?", "magenta"))
+    input_text = input(colored("Escribe algo: ", "green"))
+    response = process_input(input_text)
+    print(colored("Tom:", "yellow"), response)
+    process_audio_video(response)
 
+# Ejecutar la función principal
 if __name__ == "__main__":
     main()
