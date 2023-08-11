@@ -1,3 +1,10 @@
+import tkinter as tk
+from tkinter import Entry, Button, Label
+import pygame
+from dotenv import load_dotenv
+from moviepy.editor import VideoFileClip, AudioFileClip
+from gtts import gTTS
+import os
 import speech_recognition as sr
 from termcolor import colored
 import openai
@@ -6,13 +13,9 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.agents import load_tools, initialize_agent, AgentType
 from langchain.agents import Tool
 from langchain.memory import ConversationBufferMemory
-import os
 from dotenv import load_dotenv
-
 from moviepy.editor import VideoFileClip, AudioFileClip
 import pyttsx3
-from gtts import gTTS
-
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -132,15 +135,64 @@ def process_audio_video(frase):
     output_path = 'video_con_audio.mp4'
     video.write_videofile(output_path, codec='libx264')
 
-
-# Función principal del programa
-def main():
-    print(colored("¡Buenas! Soy Siri, ¿En qué puedo ayudarte?", "magenta"))
-    input_text = input(colored("Escribe algo: ", "green"))
-    response = process_input(input_text)
-    print(colored("Siri:", "yellow"), response)
+def send_text():
+    user_input = input_entry.get()
+    response = process_input(user_input)
+    response_label.config(text=response)
     process_audio_video(response)
 
-# Ejecutar la función principal
+def play_video(video_path):
+    pygame.mixer.music.load(video_path)
+    pygame.mixer.music.play()
+
+def create_interface():
+    root = tk.Tk()
+    root.title("Interfaz de Siri")
+    root.geometry("800x600")
+
+    input_entry = Entry(root, width=50)
+    input_entry.pack(pady=20)
+
+    send_button = Button(root, text="Enviar", command=send_text)
+    send_button.pack()
+
+    response_label = Label(root, text="", wraplength=600)
+    response_label.pack(pady=20)
+
+    root.mainloop()
+
+def process_input(input_text):
+    if input_text.lower() == "salir":
+        return None
+    else:
+        response = generate_response(input_text)
+        return response
+
+def generate_response(input_text):
+    response = zero_shot_agent(input_text)
+    respuesta = response['output']
+    return respuesta
+
+def process_audio_video(frase):
+    engine = pyttsx3.init()
+    selected_voice_id = "spanish-latin-am"
+    engine.setProperty('voice', selected_voice_id)
+    tts = gTTS(text=frase, lang='es')
+    tts.save("audio.mp3")
+    audio_path = './audio.mp3'
+    video_path = './girl.mp4'
+    video = VideoFileClip(video_path)
+    audio = AudioFileClip(audio_path)
+    video = video.set_duration(audio.duration)
+    video = video.set_audio(audio)
+    output_path = 'video_con_audio.mp4'
+    video.write_videofile(output_path, codec='libx264')
+
 if __name__ == "__main__":
-    main()
+    initialize_agent()
+
+    pygame.init()
+    pygame.mixer.init()
+
+    print(colored("¡Buenas! Soy Siri, ¿En qué puedo ayudarte?", "magenta"))
+    create_interface()
