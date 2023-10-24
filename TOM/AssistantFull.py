@@ -3,51 +3,51 @@ import pyttsx3
 from gtts import gTTS
 import os
 
-# Obtener la frase del usuario
-frase = input("Ingresa la frase que deseas convertir en audio: ")
+def get_user_phrase():
+    frase = input("Ingresa la frase que deseas convertir en audio: ")
+    return frase
 
-# Configurar el motor de síntesis de voz
-engine = pyttsx3.init()
+def configure_speech_engine():
+    engine = pyttsx3.init()
+    return engine
 
-# Obtener las voces disponibles
-voices = engine.getProperty('voices')
+def get_available_voices(engine):
+    voices = engine.getProperty('voices')
+    return voices
 
-# Imprimir las voces disponibles para que el usuario las vea
-for voice in voices:
-    print("ID:", voice.id)
-    print("Name:", voice.name)
-    print("Lang:", voice.languages)
-    print("Gender:", voice.gender)
-    print("--------------")
+def select_voice():
+    selected_voice_id = "spanish-latin-am"
+    return selected_voice_id
 
-# Permitir al usuario seleccionar una voz
-# selected_voice_id = input("Selecciona el ID de la voz que deseas utilizar: ")
-selected_voice_id = "spanish-latin-am"
+def configure_selected_voice(engine, selected_voice_id):
+    engine.setProperty('voice', selected_voice_id)
 
-# Configurar la voz seleccionada
-engine.setProperty('voice', selected_voice_id)
+def generate_audio_file(text, filename):
+    tts = gTTS(text=text, lang='es')
+    tts.save(filename)
 
-# Generar el archivo de audio con gTTS
-tts = gTTS(text=frase, lang='es')
-tts.save("audio.mp3")
+def process_video_and_audio(video_path, audio_path):
+    video = VideoFileClip(video_path)
+    audio = AudioFileClip(audio_path)
+    print("Duración del video: ", video.duration)
+    print("Duración del audio: ", audio.duration)
+    video = video.set_duration(audio.duration)
+    video = video.set_audio(audio)
+    output_path = 'video_con_audio.mp4'
+    video.write_videofile(output_path, codec='libx264')
 
-# Rutas de los archivos de video y audio
-video_path = './personaje.mp4'
-audio_path = './audio.mp3'
+def main():
+    user_phrase = get_user_phrase()
+    speech_engine = configure_speech_engine()
+    selected_voice = select_voice()
+    configure_selected_voice(speech_engine, selected_voice)
 
-# Cargar el video y el audio
-video = VideoFileClip(video_path)
-audio = AudioFileClip(audio_path)
+    audio_filename = "audio.mp3"
+    generate_audio_file(user_phrase, audio_filename)
 
-print("Duración del video: ", video.duration)
-print("Duración del audio: ", audio.duration)
+    video_path = './girl.mp4'
+    process_video_and_audio(video_path, audio_filename)
 
-# Ajustar la duración del video para que coincida con la duración del audio
-video = video.set_duration(audio.duration)
+if __name__ == "__main__":
+    main()
 
-# Combinar el audio con el video
-video = video.set_audio(audio)
-
-# Guardar el nuevo video con el audio combinado y la duración ajustada
-output_path = 'video_con_audio.mp4'
-video.write_videofile(output_path, codec='libx264')
