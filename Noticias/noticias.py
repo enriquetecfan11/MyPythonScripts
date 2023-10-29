@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -43,12 +44,12 @@ def obtenerNoticiasXataka():
 noticias_xataka = obtenerNoticiasXataka()
 
 # Mostrar los titulares y enlaces
-for i, noticia in enumerate(noticias_xataka, 1):
-    print("--------------------------")
-    print("Xataka")
-    print(f"Noticia {i} - Titular: {noticia['titular']}")
-    print(f"Enlace: {noticia['enlace']}")
-    print("------------------------")
+# for i, noticia in enumerate(noticias_xataka, 1):
+#     print("--------------------------")
+#     print("Xataka")
+#     print(f"Noticia {i} - Titular: {noticia['titular']}")
+#     print(f"Enlace: {noticia['enlace']}")
+#     print("------------------------")
 
 # Obtener las noticias de Genbeta
 def obtenerNoticiasGenbeta():
@@ -72,13 +73,13 @@ def obtenerNoticiasGenbeta():
 noticias_genbeta = obtenerNoticiasGenbeta()
 
 # Mostrar los titulares y enlaces de Genbeta
-for i, noticia in enumerate(noticias_genbeta, 1):
-    print("\n")
-    print("--------------------------")
-    print("Genbeta")
-    print(f"Noticia {i} - Titular: {noticia['titular']}")
-    print(f"Enlace: {noticia['enlace']}")
-    print("------------------------")
+# for i, noticia in enumerate(noticias_genbeta, 1):
+#     print("\n")
+#     print("--------------------------")
+#     print("Genbeta")
+#     print(f"Noticia {i} - Titular: {noticia['titular']}")
+#     print(f"Enlace: {noticia['enlace']}")
+#     print("------------------------")
 
 # Obtener las noticias de 20 Bits
 def obtenerNoticias20Bits():
@@ -102,13 +103,13 @@ def obtenerNoticias20Bits():
 noticias_20bits = obtenerNoticias20Bits()
 
 # Mostrar los titulares y enlaces de 20 Bits
-for i, noticia in enumerate(noticias_20bits, 1):
-    print("\n")
-    print("--------------------------")
-    print("20 Bits")
-    print(f"Noticia {i} - Titular: {noticia['titular']}")
-    print(f"Enlace: {noticia['enlace']}")
-    print("------------------------")
+# for i, noticia in enumerate(noticias_20bits, 1):
+#     print("\n")
+#     print("--------------------------")
+#     print("20 Bits")
+#     print(f"Noticia {i} - Titular: {noticia['titular']}")
+#     print(f"Enlace: {noticia['enlace']}")
+#     print("------------------------")
 
 # Obtener las noticias de Computer Hoy
 def obtenerNoticiasComputerHoy():
@@ -132,24 +133,29 @@ def obtenerNoticiasComputerHoy():
 noticias_computer_hoy = obtenerNoticiasComputerHoy()
 
 # Mostrar los titulares y enlaces de Computer Hoy
-for i, noticia in enumerate(noticias_computer_hoy, 1):
-    print("\n")
-    print("--------------------------")
-    print("Computer Hoy")
-    print(f"Noticia {i} - Titular: {noticia['titular']}")
-    print(f"Enlace: {noticia['enlace']}")
-    print("------------------------")
 
-# Obtener las noticias de todas las fuentes
-todas_las_noticias = {
-    "xataka": obtenerNoticiasXataka(),
-    "genbeta": obtenerNoticiasGenbeta(),
-    "20 Bits": obtenerNoticias20Bits(),
-    "Computer Hoy": obtenerNoticiasComputerHoy()
-}
+# for i, noticia in enumerate(noticias_computer_hoy, 1):
+#     print("\n")
+#     print("--------------------------")
+#     print("Computer Hoy")
+#     print(f"Noticia {i} - Titular: {noticia['titular']}")
+#     print(f"Enlace: {noticia['enlace']}")
+#     print("------------------------")
 
-# Exportar las noticias en un archivo JSON
-with open('noticias_tecnologicas.json', 'w', encoding='utf-8') as archivo_json:
-    json.dump(todas_las_noticias, archivo_json, ensure_ascii=False, indent=4)
+# concatenar todas las noticias en una
+noticias = noticias_xataka + noticias_genbeta + noticias_20bits + noticias_computer_hoy
 
-print("Noticias exportadas en noticias_tecnologicas.json")
+# Mostrar los titulares y enlaces de todas las noticias
+
+# for i, noticia in enumerate(noticias, 1):
+#     print("\n")
+#     print("--------------------------")
+#     print(f"Noticia {i} - Titular: {noticia['titular']}")
+#     print(f"Enlace: {noticia['enlace']}")
+#     print("------------------------")
+
+# Guardar las noticias en un archivo JSON
+with open('noticias.json', 'w', encoding='utf-8') as file:
+    json.dump(noticias, file, ensure_ascii=False)
+
+print("Noticias Guardadas Correctamente")
