@@ -20,11 +20,11 @@
     
     ## Repository Structure
     - .git
-- CC
 - ChromeDriver
 - cursodjango
-- DB
+- Database
 - Docker
+- FieldDocument
 - MediaFiles
 - MySQL
 - Noticias
@@ -36,8 +36,7 @@
 - RaspberryPi
 - SAM
 - ScriptsVarios
-- SD
+- StableDiffusion
 - streamlit
 - TelegramBot
 - TestBots
-- TOM
