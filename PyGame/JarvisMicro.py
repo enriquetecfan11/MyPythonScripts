@@ -52,6 +52,6 @@ class VoiceIndicator:
         pygame.quit()
 
 if __name__ == "__main__":
-    device_index = 33  # Índice del dispositivo de audio que deseas utilizar
+    device_index = 6  # Índice del dispositivo de audio que deseas utilizar
     voice_indicator = VoiceIndicator(device_index)
     voice_indicator.run()
