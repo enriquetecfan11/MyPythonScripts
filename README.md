@@ -7,6 +7,8 @@ This are my best scripts i wrote in python for my daily work.
 
 ## Repository Structure
 - .git
+- .github
+- AI
 - ChromeDriver
 - cursodjango
 - Database
@@ -23,7 +25,6 @@ This are my best scripts i wrote in python for my daily work.
 - RaspberryPi
 - SAM
 - ScriptsVarios
-- StableDiffusion
 - streamlit
 - TelegramBot
 - TestBots
