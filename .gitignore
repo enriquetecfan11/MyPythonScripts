@@ -181,3 +181,7 @@ cython_debug/
 client_secret.json
 geckodriver.log
 /img
+
+
+json-export
+.json
