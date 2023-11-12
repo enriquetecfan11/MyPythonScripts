@@ -184,4 +184,5 @@ geckodriver.log
 
 
 json-export
+csv-export
 .json
