@@ -186,3 +186,21 @@ geckodriver.log
 json-export
 csv-export
 .json
+
+# Ignore all .pdf files in the repository
+*.pdf
+
+# Ignore all .csv files in the repository
+*.csv
+
+# Ignore all .xlsx files in the repository
+*.xlsx
+
+# Ignore all .xls files in the repository
+*.xls
+
+# Ignore all .doc files in the repository
+*.doc
+
+# Ignore all .docx files in the repository
+*.docx
