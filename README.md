@@ -1,16 +1,9 @@
-
-
 # Welcome to Python Scripts
-
 This are my best scripts i wrote in python for my daily work.
 
-
 ## Repository Structure
-- .git
-- .github
 - AI
 - ChromeDriver
-- cursodjango
 - Database
 - Docker
 - FieldDocument
@@ -24,7 +17,6 @@ This are my best scripts i wrote in python for my daily work.
 - PyGUI
 - RaspberryPi
 - SAM
-- ScriptsVarios
 - streamlit
 - TelegramBot
 - TestBots
