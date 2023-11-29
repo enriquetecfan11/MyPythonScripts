@@ -15,10 +15,11 @@ readme_folders = """
 """
   
 for root, dirs, _ in os.walk(current_dir):
-  level = root.replace(current_dir, '').count(os.sep)
-  if level == 1:  # Only process top-level directories
-    indent = ' ' * 4 * (level - 1)
-    readme_folders += '{}- {}\n'.format(indent, os.path.basename(root))
+    level = root.replace(current_dir, '').count(os.sep)
+    folder_name = os.path.basename(root)
+    if level == 1 and folder_name not in ['.github', '.git', 'ChromeDriver']:  # Only process top-level directories and skip specified folders
+        indent = ' ' * 4 * (level - 1)
+        readme_folders += '{}- {}\n'.format(indent, folder_name)
 
 
 readme_license = """

@@ -1,11 +1,13 @@
+
+
 # Welcome to Python Scripts
+
 This are my best scripts i wrote in python for my daily work.
+
 
 ## Repository Structure
 - AI
-- ChromeDriver
 - Database
-- Docker
 - FieldDocument
 - MediaFiles
 - MySQL
