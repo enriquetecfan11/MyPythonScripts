@@ -7,10 +7,10 @@ from getWeather import get_weather_data, create_weather_image
 from captureWEB import capture_screenshot
 
 # Configura el token de tu bot de Telegram
-bot_token = "1984896147:AAHPlXoRiVSqN8oWkieMz4GeFYfZzFUVxOw"
+bot_token = ""
 
 # Configura el chat_id de tu bot de Telegram
-chat_id = "207196532"
+chat_id = ""
 
 bot = Bot(token=bot_token)
 
