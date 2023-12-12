@@ -6,6 +6,10 @@ from telegram.error import TimedOut
 from telegram import Update, InputFile
 import time
 import requests
+import dotenv
+import os
+
+dotenv.load_dotenv()
 
 
 # Configura el logger
@@ -116,36 +120,36 @@ def logger_handler(update: Update, context: CallbackContext):
 # Función ejecutar un comando a dos horas diferentes
 # eL comando ejecuta hace una llamada a la API a dos endpoints diferentes uno es crypto_image y el otro es weather_image
 # Se tiene que ejecutar a las 12:00 y a las 00:00
-def job(context: CallbackContext):
+# def job(context: CallbackContext):
 
 
 # Función principal para iniciar el bot
 def main():
-    # Crea una instancia de Bot con el token
-    bottoken = "1984896147:AAHPlXoRiVSqN8oWkieMz4GeFYfZzFUVxOw"     
-    bot = Bot(token=bottoken)
+  # Crea una instancia de Bot con el token
+  bot_token = os.getenv("BOT_TOKEN")  
+  bot = Bot(token=bot_token)
 
-    # Crea un Updater que manejará las actualizaciones del bot
-    updater = Updater(bot=bot, use_context=True)
-    
-    # Obtén el despachador para registrar manejadores
-    dispatcher = updater.dispatcher
+  # Crea un Updater que manejará las actualizaciones del bot
+  updater = Updater(bot=bot, use_context=True)
+  
+  # Obtén el despachador para registrar manejadores
+  dispatcher = updater.dispatcher
 
 
-    # Registra manejadores para comandos y mensajes de texto
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("crypto", get_crypto_image))
-    dispatcher.add_handler(CommandHandler("tiempo", get_weather_image, pass_args=True))
-    dispatcher.add_handler(CommandHandler("screenshot", capture_screenshot, pass_args=True))
-    dispatcher.add_handler(CommandHandler("help", help))
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_city_response))
+  # Registra manejadores para comandos y mensajes de texto
+  dispatcher.add_handler(CommandHandler("start", start))
+  dispatcher.add_handler(CommandHandler("crypto", get_crypto_image))
+  dispatcher.add_handler(CommandHandler("tiempo", get_weather_image, pass_args=True))
+  dispatcher.add_handler(CommandHandler("screenshot", capture_screenshot, pass_args=True))
+  dispatcher.add_handler(CommandHandler("help", help))
+  dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_city_response))
 
-    # Registro de lo que hace el usuario con logger
-    dispatcher.add_handler(MessageHandler(None, logger_handler))
+  # Registro de lo que hace el usuario con logger
+  dispatcher.add_handler(MessageHandler(None, logger_handler))
 
-    # Inicia el bot
-    updater.start_polling()
-    updater.idle()
+  # Inicia el bot
+  updater.start_polling()
+  updater.idle()
 
 if __name__ == "__main__":
     logger.info("Iniciando el bot...")

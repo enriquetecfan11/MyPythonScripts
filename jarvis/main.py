@@ -5,12 +5,18 @@ from pydantic import BaseModel
 from getCoins import get_crypto_data, create_crypto_image
 from getWeather import get_weather_data, create_weather_image
 from captureWEB import capture_screenshot
+import dotenv
+import os
+
+dotenv.load_dotenv()
+
+
 
 # Configura el token de tu bot de Telegram
-bot_token = ""
+bot_token = os.getenv("BOT_TOKEN")
 
 # Configura el chat_id de tu bot de Telegram
-chat_id = ""
+chat_id = os.getenv("CHAT_ID")
 
 bot = Bot(token=bot_token)
 
