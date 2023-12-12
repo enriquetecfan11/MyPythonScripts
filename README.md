@@ -1,5 +1,3 @@
-
-
 # Welcome to Python Scripts
 
 This are my best scripts i wrote in python for my daily work.
@@ -10,7 +8,6 @@ This are my best scripts i wrote in python for my daily work.
 - Database
 - FieldDocument
 - MediaFiles
-- MySQL
 - Noticias
 - paginawebautomatizada
 - ProgramasVarios
@@ -18,7 +15,6 @@ This are my best scripts i wrote in python for my daily work.
 - PyGame
 - PyGUI
 - RaspberryPi
-- SAM
 - streamlit
 - TelegramBot
 - TestBots
